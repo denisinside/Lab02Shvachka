@@ -48,6 +48,7 @@ namespace Lab02Shvachka.Models
         public string FullName { get; }
         public string Email { get { return _email; } }
         public DateTime DateOfBirth { get { return _birthday; } }
+        public String FormattedDateOfBirthday { get { return DateOfBirth.ToString("dd.MM.yyyy"); } }
 
         public int Age { get; }
         public bool IsAdult { get; }
