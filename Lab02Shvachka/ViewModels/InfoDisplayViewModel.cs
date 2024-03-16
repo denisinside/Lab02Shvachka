@@ -61,12 +61,19 @@ namespace Lab02Shvachka.ViewModels
             {
                 _person = value;
                 OnPropertyChanged(nameof(Person));
+                if (_person.IsBirthday)
+                    SayHappyBirthday();
             }
         }
 
         public InfoDisplayViewModel(Action gotoInputMenu)
         {
             _gotoInputMenu = gotoInputMenu;
+        }
+
+        private void SayHappyBirthday()
+        {
+            MessageBox.Show("Happy Birthday!");
         }
 
     }

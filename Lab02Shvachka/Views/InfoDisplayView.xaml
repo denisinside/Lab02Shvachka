@@ -39,7 +39,7 @@
         <controls:ValueTextBlock  Grid.Row="4" Grid.Column="1" Caption="Chinese Zodiac:" Text="{Binding Person.ChineseZodiacSign}"></controls:ValueTextBlock>
 
 
-        <Button Grid.Row="5" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="60" Margin="5" FontSize="20" FontWeight="Bold" Content="Start" Command="{Binding GotoMenuCommand}" >
+        <Button Grid.Row="5" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="60" Margin="5" FontSize="20" FontWeight="Bold" Content="To Menu" Command="{Binding GotoMenuCommand}" >
             <Button.Background>
                 <RadialGradientBrush>
                     <GradientStop Color="#FFB2B890" Offset="1"/>
