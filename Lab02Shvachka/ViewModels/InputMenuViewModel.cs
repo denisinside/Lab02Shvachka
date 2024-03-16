@@ -58,6 +58,7 @@ namespace Lab02Shvachka.ViewModels
 
         private bool CanExecute(object obj)
         {
+            ToolTipText = UpdateToolTipText();
             return !String.IsNullOrWhiteSpace(Name) && !String.IsNullOrWhiteSpace(Surname) && !String.IsNullOrWhiteSpace(Email) && IsValidEmail() && IsValidDate();
         }
         #endregion
@@ -69,6 +70,7 @@ namespace Lab02Shvachka.ViewModels
         private DateTime _selectedDate;
         private Action<Person> _gotoInfoDisplay;
         private bool _isEnabled;
+        private string _toolTipText;
         #endregion
 
         #region Properties
@@ -136,6 +138,19 @@ namespace Lab02Shvachka.ViewModels
                 }
             }
         }
+        public string ToolTipText
+        {
+            get { return _toolTipText; }
+            set
+            {
+                if (_toolTipText != value)
+                {
+                    _toolTipText = value;
+                    OnPropertyChanged(nameof(ToolTipText));
+                }
+            }
+        }
+
         #endregion
 
         public InputMenuViewModel(Action<Person> toInfoDisplay)
@@ -163,9 +178,10 @@ namespace Lab02Shvachka.ViewModels
             {
                 return false;
             }
-        } 
+        }
         #endregion
 
+        #region Additional Methods
         private void ClearData()
         {
             Name = String.Empty;
@@ -173,5 +189,31 @@ namespace Lab02Shvachka.ViewModels
             Email = String.Empty;
             SelectedDate = DateTime.Today;
         }
+
+        private string UpdateToolTipText()
+        {
+            if (String.IsNullOrWhiteSpace(Name))
+            {
+                return "Name field is empty.";
+            }
+            if (String.IsNullOrWhiteSpace(Surname))
+            {
+                return "Surname field is empty.";
+            }
+            if (String.IsNullOrWhiteSpace(Email))
+            {
+                return "Email field is empty.";
+            }
+            if (!IsValidEmail())
+            {
+                return "Invalid email format.";
+            }
+            if (!IsValidDate())
+            {
+                return "Invalid data: you are too old or not yet born.";
+            }
+            return "Click to analyse you!";
+        } 
+        #endregion
     }
 }

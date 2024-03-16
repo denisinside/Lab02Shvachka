@@ -37,7 +37,7 @@
         <TextBlock Grid.Row="4" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,5,5,1" Text="Caption" FontSize="14" Foreground="Black"/>
         <DatePicker Grid.Row="5" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="30" Margin="5,0,5,5" IsTodayHighlighted="True" SelectedDate="{Binding SelectedDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEnabled, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"></DatePicker>
 
-        <Button Grid.Row="6" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="60" Margin="5" FontSize="20" FontWeight="Bold" Content="Start" Command="{Binding AnalyseCommand}"  IsEnabled="{Binding IsEnabled, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+        <Button Grid.Row="6" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="60" Margin="5" FontSize="20" FontWeight="Bold" Content="Start" Command="{Binding AnalyseCommand}"  IsEnabled="{Binding IsEnabled, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"  ToolTip="{Binding ToolTipText}"  ToolTipService.ShowOnDisabled="True">
             <Button.Background>
                 <RadialGradientBrush>
                     <GradientStop Color="#FF90B894" Offset="1"/>
@@ -56,4 +56,5 @@
         </Button>
 
     </Grid>
+    
 </UserControl>

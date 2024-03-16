@@ -62,7 +62,7 @@ namespace Lab02Shvachka.ViewModels
                 _person = value;
                 OnPropertyChanged(nameof(Person));
                 if (_person.IsBirthday)
-                    SayHappyBirthday();
+                 Task.Run(()=>   SayHappyBirthday());
             }
         }
 
