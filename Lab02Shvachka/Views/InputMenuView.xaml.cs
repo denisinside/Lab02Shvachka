@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Lab02Shvachka.Models;
 using Lab02Shvachka.ViewModels;
 
 namespace Lab02Shvachka.Views
@@ -22,7 +23,7 @@ namespace Lab02Shvachka.Views
     public partial class InputMenuView : UserControl
     {
         InputMenuViewModel viewModel;
-        public InputMenuView(Action toInfoDisplay)
+        public InputMenuView(Action<Person> toInfoDisplay)
         {
             InitializeComponent();
             DataContext = viewModel = new InputMenuViewModel(toInfoDisplay);

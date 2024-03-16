@@ -30,14 +30,14 @@
 
         <TextBlock Grid.Row="0" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" TextAlignment="Center" Text="Let's analyse you!" FontSize="36" FontFamily="Bernard MT Condensed" TextDecorations="Underline" />
 
-        <controls:TextBoxWithCaption Grid.Row="1" Grid.ColumnSpan="2" Caption="Name:" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></controls:TextBoxWithCaption>
-        <controls:TextBoxWithCaption Grid.Row="2" Grid.ColumnSpan="2" Caption="Surname:" Text="{Binding Surname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></controls:TextBoxWithCaption>
-        <controls:TextBoxWithCaption Grid.Row="3" Grid.ColumnSpan="2" Caption="Email:" Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></controls:TextBoxWithCaption>
+        <controls:TextBoxWithCaption Grid.Row="1" Grid.ColumnSpan="2" Caption="Name:" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEnabled, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"></controls:TextBoxWithCaption>
+        <controls:TextBoxWithCaption Grid.Row="2" Grid.ColumnSpan="2" Caption="Surname:" Text="{Binding Surname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEnabled, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"></controls:TextBoxWithCaption>
+        <controls:TextBoxWithCaption Grid.Row="3" Grid.ColumnSpan="2" Caption="Email:" Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEnabled, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"></controls:TextBoxWithCaption>
 
         <TextBlock Grid.Row="4" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,5,5,1" Text="Caption" FontSize="14" Foreground="Black"/>
-        <DatePicker Grid.Row="5" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="30" Margin="5,0,5,5" SelectedDate="{Binding SelectedDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsTodayHighlighted="True"></DatePicker>
+        <DatePicker Grid.Row="5" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="30" Margin="5,0,5,5" IsTodayHighlighted="True" SelectedDate="{Binding SelectedDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEnabled, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"></DatePicker>
 
-        <Button Grid.Row="6" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="60" Margin="5" FontSize="20" FontWeight="Bold" Content="Start" Command="{Binding AnalyseCommand}" >
+        <Button Grid.Row="6" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="60" Margin="5" FontSize="20" FontWeight="Bold" Content="Start" Command="{Binding AnalyseCommand}"  IsEnabled="{Binding IsEnabled, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
             <Button.Background>
                 <RadialGradientBrush>
                     <GradientStop Color="#FF90B894" Offset="1"/>

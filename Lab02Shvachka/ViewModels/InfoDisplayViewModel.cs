@@ -8,10 +8,11 @@ using System.Threading.Tasks;
 using Lab02Shvachka.Tools;
 using System.Xml.Linq;
 using Lab02Shvachka.Models;
+using System.Windows;
 
 namespace Lab02Shvachka.ViewModels
 {
-    internal class InfoDisplayViewModel : INotifyPropertyChanged
+    public class InfoDisplayViewModel : INotifyPropertyChanged
     {
 
         #region PropertyChanged
@@ -35,7 +36,6 @@ namespace Lab02Shvachka.ViewModels
             }
         }
 
-
         public RelayCommand<object> CloseCommand
         {
             get
@@ -50,11 +50,22 @@ namespace Lab02Shvachka.ViewModels
         #endregion
 
         private Action _gotoInputMenu;
-        public Person Person { get; set; }
+        private Person _person;
+        public Person Person
+        { 
+            get
+            {
+                return _person; 
+            }
+            set
+            {
+                _person = value;
+                OnPropertyChanged(nameof(Person));
+            }
+        }
 
         public InfoDisplayViewModel(Action gotoInputMenu)
         {
-            Person = new("Denys", "Shvachka", "meow@gmail.com", DateTime.Now);
             _gotoInputMenu = gotoInputMenu;
         }
 

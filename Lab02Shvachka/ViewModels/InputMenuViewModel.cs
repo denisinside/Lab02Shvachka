@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Lab02Shvachka.Tools;
 using Lab02Shvachka.Services;
 using System.Windows;
+using Lab02Shvachka.Models;
 
 namespace Lab02Shvachka.ViewModels
 {
@@ -42,9 +43,17 @@ namespace Lab02Shvachka.ViewModels
                 return _close ??= new RelayCommand<object>(_ => Environment.Exit(0));
             }
         }
-        private void GotoInfoDisplay()
+        private async void GotoInfoDisplay()
         {
-            _gotoInfoDisplay?.Invoke();
+            Person person = new(Name, Surname, Email, SelectedDate);
+            IsEnabled = false;
+
+            await Task.Delay(1000);
+
+            await person.InitializePersonAsync();
+            IsEnabled = true;
+            _gotoInfoDisplay?.Invoke(person);
+            ClearData();
         }
 
         private bool CanExecute(object obj)
@@ -53,13 +62,13 @@ namespace Lab02Shvachka.ViewModels
         }
         #endregion
 
-
         #region Fields
         private string _name;
         private string _surname;
         private string _email;
         private DateTime _selectedDate;
-        private Action _gotoInfoDisplay;
+        private Action<Person> _gotoInfoDisplay;
+        private bool _isEnabled;
         #endregion
 
         #region Properties
@@ -114,11 +123,25 @@ namespace Lab02Shvachka.ViewModels
                 }
             }
         }
+
+        public bool IsEnabled
+        {
+            get { return _isEnabled; }
+            set
+            {
+                if (_isEnabled != value)
+                {
+                    _isEnabled = value;
+                    OnPropertyChanged(nameof(IsEnabled));
+                }
+            }
+        }
         #endregion
 
-        public InputMenuViewModel(Action toInfoDisplay)
+        public InputMenuViewModel(Action<Person> toInfoDisplay)
         {
             SelectedDate = DateTime.Today;
+            IsEnabled = true;
             _gotoInfoDisplay = toInfoDisplay;
         }
 
@@ -143,5 +166,12 @@ namespace Lab02Shvachka.ViewModels
         } 
         #endregion
 
+        private void ClearData()
+        {
+            Name = String.Empty;
+            Surname = String.Empty;
+            Email = String.Empty;
+            SelectedDate = DateTime.Today;
+        }
     }
 }

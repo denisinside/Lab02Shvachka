@@ -8,11 +8,11 @@ namespace Lab02Shvachka.Views
     /// </summary>
     public partial class InfoDisplayView : UserControl
     {
-        InfoDisplayViewModel viewModel;
+        public InfoDisplayViewModel ViewModel { get; }
         public InfoDisplayView(Action gotoInputMenu)
         {
             InitializeComponent();
-            DataContext = viewModel = new InfoDisplayViewModel(gotoInputMenu);
+            DataContext = ViewModel = new InfoDisplayViewModel(gotoInputMenu);
         }
     }
 }
