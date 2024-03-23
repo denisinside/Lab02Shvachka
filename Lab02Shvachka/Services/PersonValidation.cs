@@ -27,9 +27,9 @@ namespace Lab02Shvachka.Services
         {
             try
             {
-                await EmailValidation();
-                await AgeValidation();
-                await BanCheck();
+                await Task.Run(() => EmailValidation());
+                await Task.Run(() => AgeValidation());
+                await Task.Run(() => BanCheck());
             }
             catch
             {
@@ -37,15 +37,14 @@ namespace Lab02Shvachka.Services
             }
         }
 
-        private Task EmailValidation()
+        private void EmailValidation()
         {
             string emailRegexPattern = @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z";
             if (!Regex.IsMatch(_email, emailRegexPattern, RegexOptions.IgnoreCase))
                 throw new EmailFormatError();
-            return Task.CompletedTask;
         }
 
-        private Task AgeValidation()
+        private void AgeValidation()
         {
             DateAnalyser da = new(_dateTime);
              int age = da.CalculateAge();
@@ -53,15 +52,13 @@ namespace Lab02Shvachka.Services
                 throw new TooYoungAgeError();
             if (age > 135)
                 throw new TooOldAgeError();
-            return Task.CompletedTask;
         }
 
-        private Task BanCheck()
+        private void BanCheck()
         {
             var fullName = $"{_name} {_surname}";
             if(_blackList.Contains(fullName))
                 throw new BannedUserError();
-            return Task.CompletedTask;
         }
     }
 }
