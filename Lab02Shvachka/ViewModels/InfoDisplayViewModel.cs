@@ -12,17 +12,9 @@ using System.Windows;
 
 namespace Lab02Shvachka.ViewModels
 {
-    public class InfoDisplayViewModel : INotifyPropertyChanged
+    public class InfoDisplayViewModel : ViewModelBase
     {
 
-        #region PropertyChanged
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string PropertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(PropertyName));
-        }
-        #endregion
 
         #region Commands
         private RelayCommand<object> _goToMenu;
@@ -51,6 +43,9 @@ namespace Lab02Shvachka.ViewModels
 
         private Action _gotoInputMenu;
         private Person _person;
+
+        public MessageViewModel BirthdayMessageViewModel { get; }
+        public string Message { set => BirthdayMessageViewModel.Message = value; }
         public Person Person
         { 
             get
@@ -62,18 +57,16 @@ namespace Lab02Shvachka.ViewModels
                 _person = value;
                 OnPropertyChanged(nameof(Person));
                 if (_person.IsBirthday)
-                 Task.Run(()=>   SayHappyBirthday());
+                    Message = "Happy Birthday!";
+                else
+                    Message = String.Empty;
             }
         }
 
         public InfoDisplayViewModel(Action gotoInputMenu)
         {
             _gotoInputMenu = gotoInputMenu;
-        }
-
-        private void SayHappyBirthday()
-        {
-            MessageBox.Show("Happy Birthday!");
+            BirthdayMessageViewModel = new();
         }
 
     }

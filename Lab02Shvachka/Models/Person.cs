@@ -52,11 +52,6 @@ namespace Lab02Shvachka.Models
         }
         #endregion
 
-        //  to be honest, it was hard for me to put async in a right place.
-        //  i think having methods inside of models is bad behaviour, but it is impossible to make constructor async
-        //  or just write a method in a viewmodel, because it is necessary to make properties readonly. (due to init outside of constructor, i have to use private set)
-        //  i also read about async lazy initialization, but didn't find any benefits in my case,
-        //  so i am unsure of my realization
         public async Task InitializePersonAsync()
         {
             if (!_initialized)
@@ -65,7 +60,7 @@ namespace Lab02Shvachka.Models
 
                 DateAnalyser analyser = new DateAnalyser(DateOfBirth);
                 Age = await Task.Run(() => analyser.CalculateAge());
-                IsAdult = await Task.Run(() => analyser.isAdult());
+                IsAdult = await Task.Run(() => analyser.IsAdult());
                 IsBirthday = await Task.Run(() => analyser.IsBirthdayToday());
 
                 WesternZodiacSign = await Task.Run(() => ZodiacCalculator.CalculateWesternZodiac(DateOfBirth));

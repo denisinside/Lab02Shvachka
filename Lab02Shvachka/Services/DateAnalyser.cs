@@ -13,7 +13,7 @@ namespace Lab02Shvachka.Services
             _date = date;
         }
 
-        public bool isAdult()
+        public bool IsAdult()
         {
             return CalculateAge() >= 18;
         }
@@ -27,13 +27,6 @@ namespace Lab02Shvachka.Services
             }
             return age;
         }
-
-        public bool IsValid()
-        {
-            var age = CalculateAge();
-            return age >= 0 && age <= 135;
-        }
-
         public bool IsBirthdayToday()
         {
             return DateTime.Today.Month == _date.Month && DateTime.Today.Day == _date.Day;

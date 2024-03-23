@@ -10,19 +10,12 @@ using Lab02Shvachka.Tools;
 using Lab02Shvachka.Services;
 using System.Windows;
 using Lab02Shvachka.Models;
+using Lab02Shvachka.Exceptions;
 
 namespace Lab02Shvachka.ViewModels
 {
-    internal class InputMenuViewModel : INotifyPropertyChanged
+    internal class InputMenuViewModel : ViewModelBase
     {
-        #region PropertyChanged
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string PropertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(PropertyName));
-        }
-        #endregion
 
         #region Commands
         private RelayCommand<object> _analyse;
@@ -45,13 +38,26 @@ namespace Lab02Shvachka.ViewModels
         }
         private async void GotoInfoDisplay()
         {
-            Person person = new(Name, Surname, Email, SelectedDate);
+            Person person;
             IsEnabled = false;
+            try
+            {
+                await Task.Delay(1000);
+                await ValidatePerson();
 
-            await Task.Delay(1000);
+                person = new(Name, Surname, Email, SelectedDate);
 
-            await person.InitializePersonAsync();
-            IsEnabled = true;
+                await person.InitializePersonAsync();
+            }
+            catch
+            {
+                return;
+            }
+            finally 
+            {
+                IsEnabled = true;
+            }
+
             _gotoInfoDisplay?.Invoke(person);
             ClearData();
         }
@@ -59,7 +65,7 @@ namespace Lab02Shvachka.ViewModels
         private bool CanExecute(object obj)
         {
             ToolTipText = UpdateToolTipText();
-            return !String.IsNullOrWhiteSpace(Name) && !String.IsNullOrWhiteSpace(Surname) && !String.IsNullOrWhiteSpace(Email) && IsValidEmail() && IsValidDate();
+            return !String.IsNullOrWhiteSpace(Name) && !String.IsNullOrWhiteSpace(Surname) && !String.IsNullOrWhiteSpace(Email);
         }
         #endregion
 
@@ -151,6 +157,9 @@ namespace Lab02Shvachka.ViewModels
             }
         }
 
+        public MessageViewModel ErrorViewModel { get; }
+        public string ErrorMessage { set => ErrorViewModel.Message = value; }
+
         #endregion
 
         public InputMenuViewModel(Action<Person> toInfoDisplay)
@@ -158,28 +167,8 @@ namespace Lab02Shvachka.ViewModels
             SelectedDate = DateTime.Today;
             IsEnabled = true;
             _gotoInfoDisplay = toInfoDisplay;
+            ErrorViewModel = new MessageViewModel();
         }
-
-        #region Validation Methods
-        private bool IsValidDate()
-        {
-            return new DateAnalyser(SelectedDate).IsValid();
-        }
-
-        private bool IsValidEmail()
-        {
-            try
-            {
-                MailAddress m = new(Email);
-
-                return true;
-            }
-            catch (FormatException)
-            {
-                return false;
-            }
-        }
-        #endregion
 
         #region Additional Methods
         private void ClearData()
@@ -188,6 +177,42 @@ namespace Lab02Shvachka.ViewModels
             Surname = String.Empty;
             Email = String.Empty;
             SelectedDate = DateTime.Today;
+            ErrorMessage = String.Empty;
+        }
+
+
+        // I think it would be better to catch general exceptions with messages from service
+        // and then make a single catch where ErrorMessage = e.Message,
+        // but because of the task I wanted to show more variety of exceptions
+        private async Task ValidatePerson()
+        {
+            PersonValidation pv = new(Name, Surname, Email, SelectedDate);
+            try
+            {
+                await pv.ValidatePersonValuesAsync();
+            }
+            catch (EmailFormatError)
+            {
+                ErrorMessage = "Invalid email format.";
+                throw;
+            }
+            catch (TooYoungAgeError)
+            {
+                ErrorMessage = "You are too young for our app.";
+                throw;
+            }
+            catch (TooOldAgeError)
+            {
+                ErrorMessage = "You must be zombie, if you are so old.";
+                throw;
+            }
+            catch(BannedUserError)
+            {
+                ErrorMessage = "Get out of here, robber!";
+                await Task.Delay(3000);
+                Environment.Exit(1);
+                throw;
+            }
         }
 
         private string UpdateToolTipText()
@@ -203,14 +228,6 @@ namespace Lab02Shvachka.ViewModels
             if (String.IsNullOrWhiteSpace(Email))
             {
                 return "Email field is empty.";
-            }
-            if (!IsValidEmail())
-            {
-                return "Invalid email format.";
-            }
-            if (!IsValidDate())
-            {
-                return "Invalid data: you are too old or not yet born.";
             }
             return "Click to analyse you!";
         } 
